@@ -1,6 +1,6 @@
 version = "0.2"
 description = "HardCaml Framwork"
-requires = "hardcaml"
+requires = "astring hardcaml"
 archive(byte) = "HardCamlFramework.cma"
 archive(byte, plugin) = "HardCamlFramework.cma"
 archive(native) = "HardCamlFramework.cmxa"
