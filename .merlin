@@ -1,0 +1,12 @@
+S framework
+S examples
+S console
+S js
+B _build/**
+PKG hardcaml
+PKG lwt
+PKG omd
+PKG hardcaml-waveterm
+PKG topkg
+PKG js_of_ocaml
+EXT lwt

@@ -1,0 +1,14 @@
+"framework": include
+<framework/*>: syntax(camlp4o), package(hardcaml), package(hardcaml.syntax)
+<framework/*.cmx> and not "framework/HardCamlFramework.cmx": for-pack(HardCamlFramework)
+
+"console": include
+<console/*.ml{,i}>: syntax(camlp4o), package(hardcaml), package(hardcaml.syntax), package(str), package(omd), package(hardcaml-waveterm), package(lwt)
+<console/*.cmx> and not "console/HardCamlFrameworkConsole.cmx": for-pack(HardCamlFrameworkConsole)
+
+"js": include
+<js/*.ml{,i}>: syntax(camlp4o), package(hardcaml), package(hardcaml.syntax), package(hardcaml.js), package(omd), package(str), package(js_of_ocaml), package(js_of_ocaml.syntax)
+<js/*.cmx> and not "js/HardCamlFrameworkJS.cmx": for-pack(HardCamlFrameworkJS)
+
+true: bin_annot, safe_string
+

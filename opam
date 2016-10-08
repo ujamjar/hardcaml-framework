@@ -1,0 +1,15 @@
+opam-version: "1.2"
+maintainer: "andy.ray@ujamjar.com"
+authors: "andy.ray@ujamjar.com"
+homepage: "https://github.com/ujamjar/hardcaml-framework"
+dev-repo: "https://github.com/ujamjar/hardcaml-framework"
+bug-reports: "https://github.com/ujamjar/hardcaml-framework/issues"
+build: [ [ "ocaml" "pkg/pkg.ml" "build" ] ]
+depends: [
+  "hardcaml"
+  "hardcaml-waveterm"
+  "omd"
+  "lwt"
+  "js_of_ocaml"
+]
+available: [ ocaml-version >= "4.01.0" ]
