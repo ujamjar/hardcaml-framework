@@ -1,5 +1,7 @@
 # HardCaml Framework 
 
+[![Build Status](https://travis-ci.org/ujamjar/hardcaml-framework.svg?branch=master)](https://travis-ci.org/ujamjar/hardcaml-framework)
+
 A framework for building hardware core generators as a console
 application or web page. 
 
