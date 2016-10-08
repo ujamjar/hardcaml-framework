@@ -17,5 +17,5 @@ sudo apt-get install -qq ocaml ocaml-native-compilers camlp4-extra opam
 export OPAMYES=1
 opam init 
 eval `opam config env`
-opam depext -y $PKG
-opam pin add $PKG -k git .
+opam depext -y $OPAMPKG
+opam pin add $OPAMPKG -k git .
