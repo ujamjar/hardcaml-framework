@@ -22,8 +22,7 @@ package "js" (
 package "console" (
  version = "0.2"
  description = "HardCaml Examples"
- requires =
- "hardcaml.dynlink hardcaml-framework hardcaml-waveterm omd str"
+ requires = "hardcaml.dynlink hardcaml-framework hardcaml-waveterm lwt omd str"
  archive(byte) = "HardCamlFrameworkConsole.cma"
  archive(byte, plugin) = "HardCamlFrameworkConsole.cma"
  archive(native) = "HardCamlFrameworkConsole.cmxa"
