@@ -25,8 +25,8 @@ opam pin add -n lambda-term git://github.com/andrewray/lambda-term#move-focus
 opam pin add -n hardcaml git://github.com/ujamjar/hardcaml
 opam pin add -n hardcaml-waveterm git://github.com/ujamjar/hardcaml-waveterm
 
-opam depext -y $DEPPKGS $OPAMPKG
 opam pin add -n $OPAMPKG -k git .
+opam depext -y $DEPPKGS $OPAMPKG
 
 ocaml -version
 opam install $DEPPKGS $OPAMPKG
