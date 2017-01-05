@@ -1,4 +1,4 @@
-version = "0.2"
+version = "0.3"
 description = "HardCaml Framwork"
 requires = "astring hardcaml"
 archive(byte) = "HardCamlFramework.cma"
@@ -9,7 +9,7 @@ exists_if = "HardCamlFramework.cma"
 
 
 package "js" (
- version = "0.2"
+ version = "0.3"
  description = "HardCaml Examples"
  requires = "hardcaml-framework hardcaml.js omd str js_of_ocaml"
  archive(byte) = "HardCamlFrameworkJS.cma"
@@ -20,7 +20,7 @@ package "js" (
 )
 
 package "console" (
- version = "0.2"
+ version = "0.3"
  description = "HardCaml Examples"
  requires = "hardcaml.dynlink hardcaml-framework hardcaml-waveterm lwt omd str"
  archive(byte) = "HardCamlFrameworkConsole.cma"
