@@ -14,7 +14,7 @@ module Main = struct
     let worker' : (Js.js_string Js.t -> worker Js.t) Js.constr = 
         Js.Unsafe.variable "Worker"
 
-    let worker script = jsnew worker' (script)
+    let worker script = new%js worker' script
 end
 
 module Thread = struct

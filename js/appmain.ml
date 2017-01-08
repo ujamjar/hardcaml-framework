@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 module Js_utils = struct
   let debug = true
-  let jlog s = if debug then Firebug.console##log(s)
+  let jlog s = if debug then Firebug.console##(log s)
   let log s = if debug then jlog (Js.string s)
 
   let jstr = Js.string
@@ -43,12 +43,12 @@ module Js_utils = struct
   let get_element e = 
     let d = D.document in
     Js.Opt.get 
-      (d##getElementById (Js.string e))
+      (d##(getElementById (Js.string e)))
       (fun () -> failwith "getElementById")
 
   let get_attr d a = 
     ostr @@ Js.Opt.get
-      (d##getAttribute(Js.string a))
+      (d##(getAttribute (Js.string a)))
       (fun () -> failwith "getAttribute")
 
   let bold s = String.concat "" [ "<b>"; s; "</b>" ]
@@ -62,38 +62,38 @@ module Js_utils = struct
   let mk_p s = 
     let d = D.document in
     let t = D.createP d in
-    t##innerHTML <- Js.string s;
+    t##.innerHTML := Js.string s;
     t
 
   let mk_button label = 
     let b = D.createButton D.document in
-    b##innerHTML <- Js.string label;
-    b##className <- Js.string "pure-button";
+    b##.innerHTML := Js.string label;
+    b##.className := Js.string "pure-button";
     b
 
   let mk_text init = 
     let d = D.document in
     let t = D.createInput ~_type:(jstr "text") d in
-    t##value <- jstr init;
+    t##.value := jstr init;
     t
 
   let mk_integer x = 
     let d = D.document in
     let t = D.createInput ~_type:(jstr "number") d in
-    t##value <- jstr (string_of_int x);
+    t##.value := jstr (string_of_int x);
     t
 
   let mk_real x = 
     let d = D.document in
     let t = D.createInput ~_type:(jstr "number") d in
-    t##value <- jstr (Printf.sprintf "%f" x);
+    t##.value := jstr (Printf.sprintf "%f" x);
     t
 
   (* create a checkbox with initial value *)
   let mk_check ?(className="") b = 
     let d = D.document in
     let i = D.createInput ~_type:(jstr "checkbox") d in
-    i##checked <- Js.bool b;
+    i##.checked := Js.bool b;
     i
 
   let mk_dropdown n = 
@@ -101,8 +101,8 @@ module Js_utils = struct
     let s = D.createSelect d in
     let o = List.map (fun n ->
       let o = D.createOption d in
-      o##value <- jstr n;
-      o##innerHTML <- jstr n;
+      o##.value := jstr n;
+      o##.innerHTML := jstr n;
       Dom.appendChild s o;
       o
     ) n in
@@ -111,7 +111,7 @@ module Js_utils = struct
   let mk_table hdr elts =
     let d = D.document in
     let table = D.createTable d in
-    table##className <- Js.string "pure-table-striped";
+    table##.className := Js.string "pure-table-striped";
     if hdr <> [||] then begin
       let thdr = D.createThead d in
       Dom.appendChild table thdr;
@@ -140,7 +140,7 @@ module Js_utils = struct
     table
 
   let rec delete_kids par = 
-    let kid = par##firstChild in
+    let kid = par##.firstChild in
     match Js.Opt.to_option kid with
     | Some(kid) ->  begin
       Dom.removeChild par kid;
@@ -152,15 +152,15 @@ module Js_utils = struct
     let d = D.document in
     let button = mk_button "select code" in
     let text = D.createTextarea d in
-    button##innerHTML <- jstr "select code";
-    button##onclick <- D.handler (fun _ -> text##select(); Js._false);
-    button##title <- jstr "Click here to select the code.";
+    button##.innerHTML := jstr "select code";
+    button##.onclick := D.handler (fun _ -> text##select; Js._false);
+    button##.title := jstr "Click here to select the code.";
 
-    text##className <- jstr "textbuf-area";
-    text##rows <- rows;
-    text##cols <- cols;
-    text##defaultValue <- jstr buffer;
-    text##readOnly <- Js._true;
+    text##.className := jstr "textbuf-area";
+    text##.rows := rows;
+    text##.cols := cols;
+    text##.defaultValue := jstr buffer;
+    text##.readOnly := Js._true;
 
     Dom.appendChild par button;
     Dom.appendChild par (D.createBr d);
@@ -183,32 +183,32 @@ module Options(P : Params) = struct
   let ui_elt name = function
     | Flag(x) -> 
       let c = mk_check x in
-      cast c, "", (fun () -> Flag(Js.to_bool c##checked))
+      cast c, "", (fun () -> Flag(Js.to_bool c##.checked))
     | Int(x) -> 
       let t = mk_integer x in
-      cast t, "integer", (fun () -> Int(int_of_string (ostr t##value)))
+      cast t, "integer", (fun () -> Int(int_of_string (ostr t##.value)))
     | Float(x) -> 
       let t = mk_real x in
-      cast t, "real", (fun () -> Float(float_of_string (ostr t##value)))
+      cast t, "real", (fun () -> Float(float_of_string (ostr t##.value)))
     | String(x) -> 
       let t = mk_text x in
-      cast t, "string", (fun () -> String(ostr t##value))
+      cast t, "string", (fun () -> String(ostr t##.value))
     | Symbol(c,x) ->
       let d, o = mk_dropdown c in
       let rec selected c o = 
         match c, o with
-        | c::c', o::o' -> if Js.to_bool o##selected then c else selected c' o'
+        | c::c', o::o' -> if Js.to_bool o##.selected then c else selected c' o'
         | _ -> failwith "dropdown not selected"
       in
-      List.iter2 (fun c o -> if c=x then o##selected <- Js._true) c o;
-      d##required <- Js._true;
+      List.iter2 (fun c o -> if c=x then o##.selected := Js._true) c o;
+      d##.required := Js._true;
       cast @@ d, "", (fun () -> Symbol(c,selected c o))
     | Int_list(x) -> 
       let t = mk_text "" in
-      cast t, "integer list", (fun () -> Int_list(parse_list name int_of_string (ostr t##value)))
+      cast t, "integer list", (fun () -> Int_list(parse_list name int_of_string (ostr t##.value)))
     | Float_list(x) -> 
       let t = mk_text "" in
-      cast t, "real list", (fun () -> Float_list(parse_list name float_of_string (ostr t##value)))
+      cast t, "real list", (fun () -> Float_list(parse_list name float_of_string (ostr t##.value)))
     | File _ -> 
       (cast @@ mk_p "files not supported!"), "", (fun () -> File "")
   
@@ -237,9 +237,12 @@ module Make(D : Design) = struct
   (* standard options *)
   module Std_config = struct
     open Param
-    include interface
-      vlog vhdl csim tb
-    end
+    type 'a t = {
+      vlog : 'a;
+      vhdl : 'a;
+      csim : 'a;
+      tb : 'a;
+    }[@@deriving hardcaml]
     let params = {
       vlog = Flag false, "generate verilog netlist";
       vhdl = Flag false, "generate vhdl netlist";
@@ -282,13 +285,13 @@ module Make(D : Design) = struct
     hw, tb
 
   (* run *)
-  let run_main () = Dom_html.window##onload <- Dom_html.handler (fun _ ->
+  let run_main () = Dom_html.window##.onload := Dom_html.handler (fun _ ->
     let main_div = Js_utils.get_element "hardcaml-framework-webapp" in
     let jsfile = Js_utils.get_attr main_div "data-hcww" in
 
     let add_div () = 
       let div = Js_utils.mk_div () in
-      div##style##marginBottom <- Js_utils.jstr "20px";
+      div##.style##.marginBottom := Js_utils.jstr "20px";
       Dom.appendChild main_div div;
       div
     in
@@ -319,15 +322,15 @@ module Make(D : Design) = struct
     in
 
     let enable_buttons b = 
-      bverilog##disabled <- if b then Js._false else Js._true;
-      bvhdl##disabled <- if b then Js._false else Js._true;
-      bsimulate##disabled <- if b then Js._false else Js._true;
+      bverilog##.disabled := if b then Js._false else Js._true;
+      bvhdl##.disabled := if b then Js._false else Js._true;
+      bsimulate##.disabled := if b then Js._false else Js._true;
     in
 
     let verilog _ = 
       begin try 
         show_error [];
-        worker##postMessage(Message.(str_of_main (MVerilog (fst @@ get_params()))));
+        worker##(postMessage (Message.(str_of_main (MVerilog (fst @@ get_params())))));
         enable_buttons false;
       with ParamValidationErrors errs -> show_error ("parameter validation error"::errs)
          | e -> show_error [ "an error occured while generating Verilog"; Printexc.to_string e ]
@@ -338,7 +341,7 @@ module Make(D : Design) = struct
     let vhdl _ = 
       begin try 
         show_error [];
-        worker##postMessage(Message.(str_of_main (MVhdl (fst @@ get_params()))));
+        worker##(postMessage (Message.(str_of_main (MVhdl (fst @@ get_params())))));
         enable_buttons false;
       with ParamValidationErrors errs -> show_error ("parameter validation error"::errs)
          | e -> show_error [ "an error occured while generating VHDL"; Printexc.to_string e ]
@@ -349,7 +352,7 @@ module Make(D : Design) = struct
     let simulate _ = 
       begin try 
         show_error [];
-        worker##postMessage(Message.(str_of_main (MSimulate (get_params()))));
+        worker##(postMessage (Message.(str_of_main (MSimulate (get_params())))));
         enable_buttons false;
       with ParamValidationErrors errs -> show_error ("parameter validation error"::errs)
          | e -> show_error [ "an error occured while setting up the simulation"; 
@@ -358,9 +361,9 @@ module Make(D : Design) = struct
       Js._false 
     in
 
-    bverilog##onclick <- Dom_html.handler verilog;
-    bvhdl##onclick <- Dom_html.handler vhdl;
-    bsimulate##onclick <- Dom_html.handler simulate;
+    bverilog##.onclick := Dom_html.handler verilog;
+    bvhdl##.onclick := Dom_html.handler vhdl;
+    bsimulate##.onclick := Dom_html.handler simulate;
 
     let write_rtl rtl = 
       Js_utils.delete_kids rtl_div;
@@ -373,8 +376,8 @@ module Make(D : Design) = struct
     in
 
     (* respond to webworker message *)
-    worker##onmessage <- Dom.handler (fun e ->
-      let _ = match Message.ww_of_str e##data with
+    worker##.onmessage := Dom.handler (fun e ->
+      let _ = match Message.ww_of_str e##.data with
       | Message.WVerilog vlog -> write_rtl vlog
       | Message.WVhdl vhdl -> write_rtl vhdl
       | Message.WSimulate wave -> show_sim wave
@@ -383,7 +386,7 @@ module Make(D : Design) = struct
       enable_buttons true;
       Js._false);
 
-    let () = descr_div##innerHTML <- Js.string (build_desc()) in
+    let () = descr_div##.innerHTML := Js.string (build_desc()) in
     let () = Dom.appendChild params_div (build_parameters_table ()) in
     let () = Dom.appendChild std_div (build_std_options ()) in
 

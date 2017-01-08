@@ -43,19 +43,19 @@ module Make(D : Design) = struct
     let worker = Web_worker.Thread.worker in
     let try_err msg f = 
       try f () 
-      with e -> worker##postMessage(Message.(str_of_ww (WError [msg; Printexc.to_string e])))
+      with e -> worker##(postMessage (Message.(str_of_ww (WError [msg; Printexc.to_string e]))))
     in
-    worker##onmessage <- Dom.handler (fun e ->
-      let _ = match Message.main_of_str e##data with
+    worker##.onmessage := Dom.handler (fun e ->
+      let _ = match Message.main_of_str e##.data with
       | Message.MVerilog hw -> 
         try_err "an error occured while generating Verilog" @@ fun () -> 
-          worker##postMessage(Message.(str_of_ww (WVerilog (get_rtl hw Rtl.Verilog.write))))
+          worker##(postMessage (Message.(str_of_ww (WVerilog (get_rtl hw Rtl.Verilog.write)))))
       | Message.MVhdl hw -> 
         try_err "an error occured while generating VHDL" @@ fun () -> 
-          worker##postMessage(Message.(str_of_ww (WVhdl (get_rtl hw Rtl.Vhdl.write))))
+          worker##(postMessage (Message.(str_of_ww (WVhdl (get_rtl hw Rtl.Vhdl.write)))))
       | Message.MSimulate (hw,tb) -> 
         try_err "an error occured during simulation" @@ fun () -> 
-          worker##postMessage(Message.(str_of_ww (WSimulate(get_wave hw tb))))
+          worker##(postMessage (Message.(str_of_ww (WSimulate(get_wave hw tb)))))
       in
       Js._false
     )

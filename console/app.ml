@@ -72,11 +72,19 @@ module Make(D : Design) = struct
   (* frame work command line arguments *)
   module Std_config = struct
     open Param
-    include interface 
-      vlog vhdl csim 
-      tb llvm vpi checktb
-      interactive vcd waveterm gtkwave 
-    end
+    type 'a t = {
+      vlog : 'a;
+      vhdl : 'a;
+      csim : 'a;
+      tb : 'a;
+      llvm : 'a;
+      vpi : 'a;
+      checktb: 'a;
+      interactive : 'a;
+      vcd : 'a;
+      waveterm : 'a;
+      gtkwave : 'a;
+    }[@@deriving hardcaml]
     let params = {
       vlog = File "", "generate verilog netlist";
       vhdl = File "", "generate vhdl netlist";
