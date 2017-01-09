@@ -1,4 +1,4 @@
-version = "0.3"
+version = "0.3.1"
 description = "HardCaml Framwork"
 requires = "astring hardcaml"
 archive(byte) = "HardCamlFramework.cma"

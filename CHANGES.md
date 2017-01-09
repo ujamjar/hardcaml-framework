@@ -1,6 +1,10 @@
+# v0.3.1
+
+* port to ppx - remove camlp4
+
 # v0.3
 
-Split up framework and examples into seperate projects
+* Split up framework and examples into seperate projects
 
 # v0.2
 
