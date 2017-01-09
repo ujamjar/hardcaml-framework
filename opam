@@ -15,3 +15,8 @@ depends: [
   "js_of_ocaml"
 ]
 available: [ ocaml-version >= "4.01.0" ]
+name: "hardcaml"
+version: "0.3.2"
+license: "ISC"
+substs:[ "pkg/META" ]
+
