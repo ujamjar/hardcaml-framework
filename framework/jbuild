@@ -1,0 +1,7 @@
+(jbuild_version 1)
+
+(library
+ ((name HardCamlFramework)
+  (public_name hardcaml-framework)
+  (libraries (hardcaml))))
+

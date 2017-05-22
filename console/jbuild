@@ -1,0 +1,8 @@
+(jbuild_version 1)
+
+(library
+ ((name HardCamlFrameworkConsole)
+  (public_name hardcaml-framework.console)
+  (libraries (hardcaml-framework str omd hardcaml-waveterm lwt))
+  (preprocess (pps (ppx_deriving_omp ppx_deriving_hardcaml)))))
+
