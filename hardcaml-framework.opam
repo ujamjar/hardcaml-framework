@@ -4,19 +4,20 @@ authors: "andy.ray@ujamjar.com"
 homepage: "https://github.com/ujamjar/hardcaml-framework"
 dev-repo: "https://github.com/ujamjar/hardcaml-framework.git"
 bug-reports: "https://github.com/ujamjar/hardcaml-framework/issues"
-build: [ [ "ocaml" "pkg/pkg.ml" "build" ] ]
+build: [ ["jbuilder" "build" "-p" name "-j" jobs] ]
 depends: [
-  "hardcaml" { >= "1.2.0" & < "2.0.0" }
+  "ocamlfind" {build}
+  "jbuilder" {build & >= "1.0+beta8"}
+  "hardcaml-js" { >= "1.2.0" & < "2.0.0" }
   "ppx_deriving_hardcaml"
   "hardcaml-waveterm" { >= "0.2.0" }
   "astring"
   "omd"
   "lwt"
-  "js_of_ocaml"
+  "js_of_ocaml" { >= "3.0" }
 ]
 available: [ ocaml-version >= "4.02.0" ]
 name: "hardcaml-framework"
-version: "0.3.2"
+version: "0.4.0"
 license: "ISC"
-substs:[ "pkg/META" ]
 

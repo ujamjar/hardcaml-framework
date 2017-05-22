@@ -159,11 +159,11 @@ module Make(D : Design) = struct
     let cs_llvm c = 
       let () = Dynlink.allow_unsafe_modules true in
       let () = 
-        try HardCamlDynlink.Sim_provider.load_provider_from_package "hardcaml-llvmsim" "HardCamlLlvmsim.cma"
+        try Sim_provider.load_provider_from_package "hardcaml-llvmsim" "HardCamlLlvmsim.cma"
         with Dynlink.Error e -> failwith (Dynlink.error_message e)
       in
-      let sim = HardCamlDynlink.Sim_provider.get_provider "hardcaml-llvmsim" in
-      let module F = (val sim : HardCamlDynlink.Sim_provider.S) in
+      let sim = Sim_provider.get_provider "hardcaml-llvmsim" in
+      let module F = (val sim : Sim_provider.S) in
       let module Cs_llvm = F(B) in
       Cs_llvm.make c in
     let cs_vpi = Cs_vpi.make ?dump_file:None in
