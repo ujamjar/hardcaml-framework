@@ -4,6 +4,6 @@
  ((name HardCamlFrameworkJS)
   (public_name hardcaml-framework.js)
   (libraries (hardcaml-js hardcaml-framework str omd js_of_ocaml))
-  (preprocess (pps (js_of_ocaml-ppx ppx_deriving_omp ppx_deriving_hardcaml)))))
+  (preprocess (pps (js_of_ocaml-ppx ppx_deriving_hardcaml)))))
 
 
